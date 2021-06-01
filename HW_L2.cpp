@@ -66,12 +66,27 @@ typedef struct variant
     unsigned short isInt : 1;
     unsigned short isFlt : 1;
     unsigned short isChr : 1;
+    Variant operator=(int val) {
+        i = val;
+        isInt = true;
+        isFlt = isChr = !isInt;
+    }
+    Variant operator=(float val) {
+        f = val;
+        isFlt = true;
+        isInt = isChr = !isFlt;
+    }
+    Variant operator=(char val) {
+        c = val;
+        isChr = true;
+        isInt = isFlt = !isChr;
+    }
 } Variant;
 //----5----->>
 
 int main()
 {
-    Variant myVariant = {0, false, false, false};
-    myVariant.value.c = 'A';
-    myVariant.isChr = true;
+    //Variant myVariant = 'A';
+    /*myVariant.value.c = 'A';
+    myVariant.isChr = true;*/
 }
