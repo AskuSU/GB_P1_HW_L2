@@ -56,10 +56,22 @@ typedef struct playingField
 //----4----->>
 
 //----5-----<<
-
+typedef struct variant
+{
+    union variable {
+        int i;
+        float f;
+        char c;
+    } value;
+    unsigned short isInt : 1;
+    unsigned short isFlt : 1;
+    unsigned short isChr : 1;
+} Variant;
 //----5----->>
 
 int main()
 {
-    std::cout << (int)uc << std::endl;
+    Variant myVariant = {0, false, false, false};
+    myVariant.value.c = 'A';
+    myVariant.isChr = true;
 }
