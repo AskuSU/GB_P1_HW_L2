@@ -57,7 +57,8 @@ typedef struct playingField
 
 //----5-----<<
 typedef struct variant
-{
+{  
+private:
     union variable {
         int i;
         float f;
@@ -66,27 +67,111 @@ typedef struct variant
     unsigned short isInt : 1;
     unsigned short isFlt : 1;
     unsigned short isChr : 1;
-    Variant operator=(int val) {
+public :
+    variant& operator = (int val) {
         i = val;
         isInt = true;
         isFlt = isChr = !isInt;
+        return *this;
     }
-    Variant operator=(float val) {
+    variant& operator = (float val) {
         f = val;
         isFlt = true;
         isInt = isChr = !isFlt;
+        return *this;
     }
-    Variant operator=(char val) {
+    variant& operator = (char val) {
         c = val;
         isChr = true;
         isInt = isFlt = !isChr;
+        return *this;
+    }
+    operator int() {
+        if (isInt) return i;
+        else return 0;
+    }
+    operator float() {
+        if (isFlt) return f;
+        else return 0.f;        
+    }
+    operator char() {
+        if (isChr) return c;
+        else return 0;
+    }
+    void init() {
+        i = 0;
+        isInt = isFlt = isChr = 0;
+    }
+    void display() {
+        if (isInt || isFlt || isChr) {
+            std::cout << "В Variant записан";
+            if (isInt)
+            {
+                std::cout << "о целое число i = ";
+                std::cout << i;
+            }
+            else if (isFlt)
+            {
+                std::cout << "о дробное число f = ";
+                std::cout << f;
+            }
+            else
+            {
+                std::cout << " символ c = ";
+                std::cout << c;
+            }
+        }
+        else
+        {
+            std::cout << "Variant пуст!";
+        }
+        std::cout << std::endl;
+
     }
 } Variant;
 //----5----->>
 
 int main()
 {
-    //Variant myVariant = 'A';
-    /*myVariant.value.c = 'A';
-    myVariant.isChr = true;*/
+    setlocale(LC_ALL, "RU");
+    
+    Variant myVariant; 
+    myVariant.display();
+    myVariant.init();
+    myVariant.display();
+
+    myVariant = 'A';
+    myVariant.display();
+
+    myVariant = 123;
+    myVariant.display();
+
+    myVariant = 15.4f;
+    myVariant.display();
+
+    std::cout << std::endl;
+    int iii = myVariant;
+    float fff = myVariant;
+    char ccc = myVariant;
+    std::cout << "int iii = " << iii << std::endl;
+    std::cout << "float fff = " << fff << std::endl;
+    std::cout << "char ccc = '" << ccc << "'" << std::endl;
+
+    myVariant = 123;
+    std::cout << std::endl;
+    iii = myVariant;
+    fff = myVariant;
+    ccc = myVariant;
+    std::cout << "int iii = " << iii << std::endl;
+    std::cout << "float fff = " << fff << std::endl;
+    std::cout << "char ccc = '" << ccc << "'" << std::endl;
+
+    myVariant = 'A';
+    std::cout << std::endl;
+    iii = myVariant;
+    fff = myVariant;
+    ccc = myVariant;
+    std::cout << "int iii = " << iii << std::endl;
+    std::cout << "float fff = " << fff << std::endl;
+    std::cout << "char ccc = '" << ccc << "'" << std::endl;
 }
